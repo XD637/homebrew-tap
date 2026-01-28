@@ -13,11 +13,20 @@ class Err < Formula
     end
   end
 
+  on_linux do
+    if Hardware::CPU.intel?
+      url "https://github.com/XD637/err/releases/download/v0.1.0/err-linux-amd64"
+      sha256 "259afff5187d68875a96346e9b3a9fa522b4e3bb4aa11fa7cc80ffb19b667e2c"
+    end
+  end
+
   def install
-    if Hardware::CPU.arm?
+    if OS.mac? && Hardware::CPU.arm?
       bin.install "err-darwin-arm64" => "err"
-    else
+    elsif OS.mac? && Hardware::CPU.intel?
       bin.install "err-darwin-amd64" => "err"
+    elsif OS.linux? && Hardware::CPU.intel?
+      bin.install "err-linux-amd64" => "err"
     end
   end
 
